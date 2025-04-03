@@ -383,9 +383,23 @@ footer {
     grid-template-columns: 1fr;
   }
    .image-placeholder {
-       height: 300px;
+       height: auto;
+       max-height: 80vh; /* Limit to 80% of viewport height */
        width: 100%;
-       max-width: 100%;
+       padding: 10px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       overflow: visible;
+   }
+   .image-placeholder img {
+       max-width: 90%;
+       max-height: 70vh; /* Limit height to ensure it's visible */
+       width: auto;
+       height: auto;
+       object-fit: contain;
+       border-radius: 20px;
+       display: block;
    }
    section {
        padding: 60px 15px 40px;
@@ -403,13 +417,6 @@ footer {
    .contact-links a {
        margin: 0 10px 10px;
        font-size: 13px;
-   }
-   .image-placeholder img {
-       max-width: 100%;
-       max-height: 100%;
-       width: auto;
-       height: auto;
-       object-fit: contain;
    }
 }
 

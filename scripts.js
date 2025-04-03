@@ -5,7 +5,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropdown = document.querySelector('.dropdown'); // Select the original dropdown
   const dropdownLinks = dropdown.querySelectorAll('.dropdown-menu a');
   const sectionNameDisplay = document.getElementById('section-name-display');
-  // const body = document.body; // No longer needed for blur class
+  const isMobile = window.innerWidth <= 768;
+  const allImages = document.querySelectorAll('.image-placeholder img');
+  
+  // Force image resize on mobile
+  if (isMobile && allImages.length) {
+    allImages.forEach(img => {
+      // Ensure images load properly on mobile
+      if (img.complete) {
+        // Already loaded images
+        setOptimalImageSize(img);
+      } else {
+        // Images that haven't loaded yet
+        img.onload = () => setOptimalImageSize(img);
+      }
+    });
+  }
+  
+  // Helper function for sizing images
+  function setOptimalImageSize(img) {
+    const containerWidth = img.parentElement.clientWidth * 0.9; // 90% of container
+    const containerHeight = Math.min(window.innerHeight * 0.7, 500); // 70% of viewport height, max 500px
+    
+    img.style.maxWidth = `${containerWidth}px`;
+    img.style.maxHeight = `${containerHeight}px`;
+  }
 
   // --- Site Title Hover Effect ---
   if (siteTitle) {
