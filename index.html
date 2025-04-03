@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mazeyar's Site</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨🏻‍💻</text></svg>">
+</head>
+<body>
+  <!-- Navigation bar (Original Structure) -->
+  <div class="nav-bar">
+    <div class="site-title">Mazeyar Moeini Feizabadi</div>
+    <div class="coordinates" id="coordinates-display">(44.498955, 11.327591)</div>
+  </div>
+
+  <!-- Dropdown Menu (Original Position - Top Middle) -->
+  <div class="dropdown">
+    <div class="dropdown-trigger">↓</div>
+    <div class="dropdown-menu">
+      <a href="#about-me" data-section-name="About Me">
+        <span class="section-number">00</span>
+      </a>
+      <a href="#splatrograph" data-section-name="Splatrograph">
+        <span class="section-number">01</span>
+      </a>
+<!--       <a href="#approach" data-section-name="Approach">
+        <span class="section-number">02</span>
+      </a>
+       <a href="#understanding" data-section-name="Understanding The Problem">
+        <span class="section-number">03</span>
+      </a> -->
+    </div>
+  </div>
+
+  <!-- Element to display section name at the bottom -->
+  <div id="section-name-display"></div>
+
+  <!-- Main content area -->
+  <main>
+    <section id="about-me">
+      <div class="content-container">
+        <div class="text-content">
+          <span class="section-number">00</span>
+          <h1>ABOUT ME</h1>
+          <p>I am Mazeyar a spatial computing researcher and developer. I have a Masters degree of Artificial Intelligence from the University of Bologna. With diverse experience in radiance fields, GIS, sensor fusion for various spatial computing applications. These range from drone use in agriculture to large scale multi-sensor 3D gaussian splat models.</p>
+          <p>My goal is to bring seamless access to the 3D world through <a href="https://splatrograph.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: #C1432E;">splatrograph.com</a>. If you're interested in learning more about my projects, feel free to explore the links below.</p>
+
+          <!-- Contact Links -->
+          <div class="contact-links">
+            <a href="mailto:mazy.moeini@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/mazeyar-moeini-feizabadi-155180199/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="attachments/Mazeyar_Moeini_Feizabadi_Resume.pdf" target="_blank">Resume</a>
+            <a href="https://github.com/mazy1998" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="image-placeholder">
+          <img src="attachments/me_with_lou.jpeg" alt="Architecture sketch">
+        </div>
+      </div>
+    </section>
+
+    <section id="splatrograph">
+      <div class="content-container">
+        <div class="image-placeholder">
+          <img src="attachments/splatrograph.png" alt="Project visualization">
+        </div>
+        <div class="text-content">
+          <span class="section-number">01</span>
+          <h2>SPLATROGRAPH</h2>
+          <p>I started Splatrograph when it became evident that no simple API existed to create 3D models from 2D images. Akin to LLM APIs like ChatGPT and Claude, I wanted to 
+            create an API that developers could use to generate 3D models without specialized knowledge. The goal is to make an open-source API that can be used to run 3D reconstruction 
+            pipelines with the ability to semantically analyze them as well.</p>
+            <p>By making 3D model generation as accessible as text generation, I hope to empower developers to build applications 
+            in fields like visualization, simulation, and augmented reality. Without the traditional  complexity associated with 3D reconstruction.</p>
+          <p>Unleash your 3D models with  <a href="https://splatrograph.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: #C1432E;">splatrograph.com</a> </p>
+        </div>
+      </div>
+    </section>
+
+<!--     <section id="approach">
+      <div class="content-container">
+        <div class="text-content">
+          <span class="section-number">02</span>
+          <h2>APPROACH</h2>
+          <p>I approach each project as an opportunity to solve unique problems through design. My process involves extensive research, collaborative dialogue, and iterative refinement.</p>
+          <p>The resulting spaces aim to be both functional and emotionally resonant, creating meaningful experiences for those who inhabit them.</p>
+        </div>
+        <div class="image-placeholder">
+         <img src="https://via.placeholder.com/600x400/f9f9f9/cccccc/?text=Approach+Image" alt="Architectural detail">
+        </div>
+      </div>
+    </section>
+
+     <section id="understanding">
+       <div class="content-container">
+         <div class="text-content">
+           <span class="section-number">03</span>
+           <h2>UNDERSTANDING THE PROBLEM</h2>
+           <p>Content for the 'Understanding The Problem' section goes here. Elaborate on the initial phase of your design or analysis process.</p>
+         </div>
+         <div class="image-placeholder">
+          <img src="https://via.placeholder.com/600x400/f9f9f9/cccccc/?text=Problem+Analysis" alt="Understanding the Problem Visual">
+         </div>
+       </div>
+     </section> -->
+
+  </main>
+
+  <footer>
+    <p>© 2025 Portfolio. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="scripts.js"></script>
+
+</body>
+</html>

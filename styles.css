@@ -1,0 +1,409 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  background-color: #f9f9f9;
+  position: relative;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Navigation Bar (Original Structure) --- */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 20px; /* Standard padding */
+  background-color: rgba(249, 249, 249, 0.95);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  min-height: 60px;
+}
+
+.site-title {
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: lowercase;
+  color: #222;
+  position: relative;
+  display: inline-block;
+  min-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
+.site-title span {
+  color: #C1432E;
+}
+
+.coordinates {
+  font-size: 14px;
+  color: #777;
+  cursor: default;
+  transition: color 0.2s ease;
+  min-width: 200px; /* Fixed minimum width */
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+ .coordinates:hover {
+     color: #333;
+ }
+
+/* --- Dropdown Menu (Original Positioning - Top Middle) --- */
+.dropdown {
+  position: fixed; /* Back to fixed */
+  top: 80px; /* Position below navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* Above main content, below navbar if needed */
+  text-align: center;
+  width: auto;
+}
+
+.dropdown-trigger {
+  font-size: 26px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease;
+  line-height: 1;
+  padding: 5px;
+  margin-bottom: 10px; /* Space between arrow and menu */
+}
+ .dropdown:hover .dropdown-trigger {
+     color: #222;
+ }
+
+.dropdown-menu {
+  display: none;
+  position: absolute; /* Position relative to .dropdown */
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  min-width: 80px;
+  padding: 10px 0;
+  /* Removed background/shadow to allow blur effect */
+  /* background-color: rgba(249, 249, 249, 0.98); */
+  /* box-shadow: 0 3px 8px rgba(0,0,0,0.1); */
+  /* border-radius: 4px; */
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 8px 15px;
+  text-decoration: none;
+  color: #222;
+  transition: color 0.3s ease; /* Removed background transition */
+  position: relative;
+  text-align: center;
+}
+ .dropdown-menu a:hover {
+     color: #C1432E;
+     /* Removed background-color hover */
+ }
+
+
+/* Numerical markers styling - Dropdown */
+.dropdown-menu .section-number {
+   font-size: 35px;
+   display: inline-block;
+   position: relative;
+   padding-bottom: 5px;
+   margin-bottom: 0;
+   font-weight: 400;
+   line-height: 1.1;
+}
+
+/* Underline effect for dropdown numbers */
+.dropdown-menu .section-number::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #C1432E;
+  transform: scaleX(0);
+  transform-origin: center center;
+  transition: transform 0.3s ease-out;
+  border-radius: 1px;
+}
+
+.dropdown-menu a:hover .section-number::after {
+  transform: scaleX(1);
+}
+
+/* Style for the currently active section number in the dropdown */
+.active-section {
+  color: #C1432E;
+}
+.active-section::after {
+     transform: scaleX(1);
+}
+
+/* Style for numbers WITHIN main section content */
+main section .section-number {
+   color: #C1432E;
+   font-size: 24px;
+   display: inline-block;
+   position: relative;
+   padding-bottom: 3px;
+   margin-bottom: 0;
+   font-weight: 400;
+}
+main section .section-number::after {
+    display: none;
+}
+
+
+/* --- Main Content & Sections --- */
+main {
+  padding-top: 80px; /* Adjust based on navbar height + desired space */
+  transition: filter 0.3s ease;
+}
+/* Blur effect triggered by original dropdown hover */
+.dropdown:hover ~ main {
+    filter: blur(3px);
+}
+
+
+section {
+  position: relative;
+  min-height: 100vh;
+  padding: 80px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+/* Section Separator Line */
+section:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 1400px;
+    height: 2px;
+    background-color: #C1432E;
+    border-radius: 1px;
+}
+
+
+.content-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.text-content {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.image-placeholder {
+  background-color: #f9f9f9;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; /* Changed from hidden to allow image corners to show */
+  border-radius: 0; /* Remove border-radius from container */
+  border: none; /* Remove border */
+}
+ .image-placeholder img {
+     max-width: 100%;
+     max-height: 100%;
+     width: auto;
+     height: auto;
+     object-fit: contain;
+     display: block;
+     border-radius: 20px;
+     transition: transform 0.3s ease;
+     transform-origin: center;
+ }
+
+.image-placeholder img:hover {
+     transform: scale(1.003) translateY(-3px);
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Contact Links Styling */
+.contact-links {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.contact-links a {
+    text-decoration: none;
+    color: #555;
+    margin-right: 20px;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    display: inline-block;
+    padding-bottom: 3px;
+    position: relative;
+}
+
+.contact-links a:last-child {
+    margin-right: 0;
+}
+
+.contact-links a:hover {
+    color: #C1432E;
+}
+/* Underline effect for contact links */
+.contact-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #C1432E;
+    border-radius: 0.5px;
+    transform: scaleX(0);
+    transform-origin: center center;
+    transition: transform 0.3s ease-out;
+}
+.contact-links a:hover::after {
+    transform: scaleX(1);
+}
+
+
+/* Section Name Display at Bottom */
+#section-name-display {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5; /* Below dropdown */
+    font-size: 27px;
+    font-weight: 500;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Footer */
+footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+  margin-top: 50px;
+  position: relative;
+  z-index: 1;
+  background-color: #f9f9f9;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .nav-bar {
+      padding: 10px 15px;
+      min-height: 50px;
+  }
+  main {
+      padding-top: 70px; /* Adjust for mobile navbar */
+  }
+   .site-title {
+       font-size: 16px;
+   }
+   .coordinates {
+       font-size: 12px;
+   }
+   .dropdown {
+       top: 65px; /* Adjust dropdown position relative to mobile navbar */
+   }
+  .content-container {
+    grid-template-columns: 1fr;
+  }
+   .image-placeholder {
+       height: 300px;
+   }
+   section {
+       padding: 60px 15px 40px;
+   }
+   section:not(:first-child)::before {
+       width: 90%;
+   }
+   #section-name-display {
+       font-size: 16px;
+       bottom: 15px;
+   }
+   .contact-links {
+       text-align: center;
+   }
+   .contact-links a {
+       margin: 0 10px 10px;
+       font-size: 13px;
+   }
+}
+
+ /* Preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .dropdown-menu .section-number::after,
+  #section-name-display,
+  .dropdown-trigger,
+  main,
+  .contact-links a::after,
+  .coordinates {
+      transition: none;
+  }
+} 
