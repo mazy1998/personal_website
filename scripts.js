@@ -54,14 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (coordinatesDisplay) {
       const originalCoordinates = coordinatesDisplay.textContent;
       const hoverText = "I currently reside in Bologna, Italy and have lived in five other countries.";
+      const isMobile = window.innerWidth <= 840;
 
-      coordinatesDisplay.addEventListener('mouseover', () => {
-          coordinatesDisplay.textContent = hoverText;
-      });
+      if (!isMobile) {
+          coordinatesDisplay.addEventListener('mouseover', () => {
+              coordinatesDisplay.textContent = hoverText;
+          });
 
-      coordinatesDisplay.addEventListener('mouseout', () => {
-          coordinatesDisplay.textContent = originalCoordinates;
-      });
+          coordinatesDisplay.addEventListener('mouseout', () => {
+              coordinatesDisplay.textContent = originalCoordinates;
+          });
+      } else {
+          coordinatesDisplay.textContent = "📍🇮🇹";
+      }
   }
 
   // --- Dropdown Hover (for Section Name Display) ---

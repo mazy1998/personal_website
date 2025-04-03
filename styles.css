@@ -58,15 +58,16 @@ body {
   color: #777;
   cursor: default;
   transition: color 0.2s ease;
-  min-width: 200px; /* Fixed minimum width */
+  min-width: 200px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
- .coordinates:hover {
-     color: #333;
- }
+
+.coordinates:hover {
+  color: #333;
+}
 
 /* --- Dropdown Menu (Original Positioning - Top Middle) --- */
 .dropdown {
@@ -255,11 +256,13 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible; /* Changed from hidden to allow image corners to show */
-  border-radius: 0; /* Remove border-radius from container */
-  border: none; /* Remove border */
+  overflow: visible;
+  border-radius: 0;
+  border: none;
+  position: relative;
 }
- .image-placeholder img {
+
+.image-placeholder img {
      max-width: 100%;
      max-height: 100%;
      width: auto;
@@ -269,7 +272,10 @@ p {
      border-radius: 20px;
      transition: transform 0.3s ease;
      transform-origin: center;
- }
+     position: relative;
+     will-change: transform;
+     -webkit-transform: translateZ(0);
+}
 
 .image-placeholder img:hover {
      transform: scale(1.003) translateY(-3px);
@@ -363,7 +369,12 @@ footer {
        font-size: 16px;
    }
    .coordinates {
-       font-size: 12px;
+       font-size: 16px;
+       min-width: auto;
+       color: #333;
+   }
+   .coordinates:hover {
+       color: #333; /* Remove hover effect on mobile */
    }
    .dropdown {
        top: 65px; /* Adjust dropdown position relative to mobile navbar */
@@ -373,6 +384,8 @@ footer {
   }
    .image-placeholder {
        height: 300px;
+       width: 100%;
+       max-width: 100%;
    }
    section {
        padding: 60px 15px 40px;
@@ -390,6 +403,13 @@ footer {
    .contact-links a {
        margin: 0 10px 10px;
        font-size: 13px;
+   }
+   .image-placeholder img {
+       max-width: 100%;
+       max-height: 100%;
+       width: auto;
+       height: auto;
+       object-fit: contain;
    }
 }
 
