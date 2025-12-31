@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mazeyar's Site</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨🏻‍💻</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨🏻‍💻</text></svg>">
 </head>
+
 <body>
   <!-- Navigation bar (Original Structure) -->
   <div class="nav-bar">
@@ -21,10 +24,10 @@
       <a href="#about-me" data-section-name="About Me">
         <span class="section-number">00</span>
       </a>
-      <a href="#splatrograph" data-section-name="Splatrograph">
+      <a href="#average-shadow" data-section-name="Average Shadow">
         <span class="section-number">01</span>
       </a>
-<!--       <a href="#approach" data-section-name="Approach">
+      <!--       <a href="#approach" data-section-name="Approach">
         <span class="section-number">02</span>
       </a>
        <a href="#understanding" data-section-name="Understanding The Problem">
@@ -43,13 +46,17 @@
         <div class="text-content">
           <span class="section-number">00</span>
           <h1>ABOUT ME</h1>
-          <p>I am Mazeyar, a spatial computing researcher and developer. With a Master's in Artificial Intelligence from the University of Bologna, I have extensive experience in radiance fields, GIS, and sensor fusion for spatial computing applications. My work spans diverse areas, from deploying drones for precision agriculture to developing large-scale multi-sensor 3D Gaussian splat models.</p>
-          <p>My goal is to bring seamless access to the 3D world through <a href="https://splatrograph.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: #C1432E;">splatrograph.com</a>. If you're interested in learning more about my projects or exploring potential collaborations, feel free to check out the links below or get in touch.</p>
+          <p>I am Mazeyar, a spatial computing researcher and developer. With a Master's in Artificial Intelligence from
+            the University of Bologna, I have extensive experience in radiance fields, GIS, and sensor fusion for
+            spatial computing applications. My work spans diverse areas, from deploying drones for precision agriculture
+            to developing large-scale multi-sensor 3D Gaussian splat models.</p>
+          <p>Take a look at my blog posts to learn more about my work.</p>
 
           <!-- Contact Links -->
           <div class="contact-links">
             <a href="mailto:mazy.moeini@gmail.com">Email</a>
-            <a href="https://www.linkedin.com/in/mazeyar-moeini-feizabadi-155180199/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/mazeyar-moeini-feizabadi-155180199/" target="_blank"
+              rel="noopener noreferrer">LinkedIn</a>
             <a href="attachments/Mazeyar_Moeini_Feizabadi_Resume.pdf" target="_blank">Resume</a>
             <a href="https://github.com/mazy1998" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
@@ -60,25 +67,31 @@
       </div>
     </section>
 
-    <section id="splatrograph">
+    <section id="average-shadow">
       <div class="content-container">
-        <div class="image-placeholder">
-          <img src="attachments/splatrograph.png" alt="Project visualization" width="100%" height="auto" loading="eager">
+        <div id="average-demo" class="widget">
+          <div class="card">
+            <canvas id="average-canvas" class="canvas canvas--mid"></canvas>
+          </div>
         </div>
         <div class="text-content">
           <span class="section-number">01</span>
-          <h2>SPLATROGRAPH</h2>
-          <p>I started Splatrograph when it became evident that no simple API existed to create 3D models from 2D images. Akin to LLM APIs like ChatGPT and Claude, I wanted to 
-            create an API that developers could use to generate 3D models without specialized knowledge. The goal is to make an open-source API that can be used to run 3D reconstruction 
-            pipelines with the ability to semantically analyze them as well.</p>
-            <p>By making 3D model generation as accessible as text generation, I hope to empower developers to build applications 
-            in fields like visualization, simulation, and augmented reality. Without the traditional  complexity associated with 3D reconstruction.</p>
-          <p>Unleash your 3D models with  <a href="https://splatrograph.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: bold; color: #C1432E;">splatrograph.com</a> </p>
+          <h2>Average Shadows of Non-Convex Surfaces</h2>
+          <p>This interactive article explores the generalization of Cauchy’s surface area formula via ambient
+            occlusion.
+            This generalization is the first to produce an exact expression for the average projected area of non-convex
+            surfaces, since Cauchy’s formula from the 19th century.
+          </p>
+          <p>Discover how a modern computer graphics principles can be used to solve a problem that has been open for
+            over a century.</p>
+          <p>Read the full article: <a href="blogs/average-shadow/main.html"
+              style="text-decoration: none; font-weight: bold; color: #C1432E;">The Average Projected Area of Non-Convex
+              Surfaces</a></p>
         </div>
       </div>
     </section>
 
-<!--     <section id="approach">
+    <!--     <section id="approach">
       <div class="content-container">
         <div class="text-content">
           <span class="section-number">02</span>
@@ -112,7 +125,24 @@
   </footer>
 
   <!-- JavaScript -->
+  <!-- Three.js and Widget Scripts -->
+  <script defer src="blogs/average-shadow/assets/theme.js"></script>
+  <script defer src="blogs/average-shadow/three.min.js"></script>
+  <script defer src="blogs/average-shadow/widgets/mc_sampler.js?v=2"></script>
+  <script defer src="blogs/average-shadow/widgets/average_scene.js?v=2"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      // Initialize the Average Shadow Widget
+      if (window.KatexStaticWidgets && window.KatexStaticWidgets.initAverageScene) {
+        window.KatexStaticWidgets.initAverageScene({
+          mountId: "average-demo",
+          canvasId: "average-canvas"
+        });
+      }
+    });
+  </script>
   <script src="scripts.js"></script>
 
 </body>
+
 </html>

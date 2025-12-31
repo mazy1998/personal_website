@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Average Projected Area of Non-Convex Surfaces</title>
+
+  <!-- KaTeX via CDN (replacing missing local files) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+
+<body>
+  <div class="nav-container">
+    <a href="../../index.html" class="back-home" aria-label="Back to Home">&larr;</a>
+    <div class="toc-wrapper">
+      <div class="toc-trigger" aria-label="Table of Contents">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+      </div>
+      <nav class="toc">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#abstract">Abstract</a></li>
+          <li><a href="#intro">Introduction and Main Result</a></li>
+          <li><a href="#definitions">Definitions and Notations</a></li>
+          <li><a href="#derivation">The Derivation</a></li>
+          <li><a href="#special-cases">Special Cases and Applications</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <header>
+      <h1>The Average Projected Area of Non-Convex Surfaces</h1>
+      <p class="subtitle">A generalization of Cauchy’s surface area formula via ambient occlusion</p>
+      <div class="meta"><a href="../../index.html"
+          style="color: inherit; text-decoration: none; border-bottom: 1px solid currentColor;">Mazeyar Moeini
+          Feizabadi</a></div>
+    </header>
+
+    <h2 id="abstract">Abstract</h2>
+    <p>
+      In 1800's, Cauchy proved that the average projected area of a convex surface is exactly one fourth of its surface
+      area.
+      For non-convex surfaces, the average projected area must be less than one fourth, because the surface can hide
+      (occlude) other parts of itself.
+      The goal of this work is to provide an exact correction to Cauchy’s surface area formula for all non-convex
+      surfaces.
+      We do this by introducing area-weighted mean cosine-weighted ambient occlusion, a surface integral that measures
+      the average amount of light blocked by the surface.
+      This, in turn can be used as convexity measure, which can also be used to compute the average projected area of a
+      non-convex surface.
+      Future work will explore the properties of this measure and its applications in biology and physics.
+    </p>
+    <div class="widget-grid">
+      <section id="three-demo" class="widget">
+        <div class="card">
+          <canvas id="three-canvas" class="canvas canvas--mid"></canvas>
+        </div>
+        <p class="caption">
+          Cube: orthographic projected shadow on a ground plane.
+        </p>
+      </section>
+
+      <section id="torus-demo" class="widget">
+        <div class="card">
+          <canvas id="torus-canvas" class="canvas canvas--mid"></canvas>
+        </div>
+        <p class="caption">
+          Torus: orthographic projected shadow on a ground plane.
+        </p>
+      </section>
+    </div>
+
+    <p>
+      Ambient Occlusion is a topic from computer graphics, but it is a natural generalization of the concept of
+      visibility. This motivates formalizing the relationship between occlusion and visibility, a key insight that
+      ultimately simplifies to the main result, even more than I initially expected.
+    </p>
+
+    <p>
+      I would highly recommend watching <a href="https://youtu.be/ltLUadnCyi0?si=ZC5p_hCFW6dXBfJ-">3Blue1Brown Video
+        Solving this for the Convex Case</a> for a more intuitive explanation.
+      His video <a href="https://youtu.be/GNcFjFmqEc8?si=HgXhPMX98Myz82mV">"But why is a sphere's surface area four
+        times its shadow?"</a> is also a great introduction to the topic.
+      Last but not least, I would recommend Greg Egan's article <a
+        href="https://www.gregegan.net/SCIENCE/AverageShadows/AverageShadows.html">Average Shadows</a> for the case
+      where the shadow is not orthographic, due to the light source being at a finite distance.
+    </p>
+
+
+
+    <h2 id="intro">Introduction and Main Result</h2>
+
+
+    <div class="theorem">
+      <div class="label">Theorem (Main Result).</div>
+      <p>
+        Let \(K\) be a compact body whose boundary \(\partial K\) is piecewise smooth, with total surface area \(S\).
+        Then the average orthographic projection area over uniformly random orientations is
+      </p>
+      <p>
+        \[
+        \overline{A}=\frac{S}{4}\left(1-\langle AO\rangle\right)=\frac{S\cdot C_M}{4} \Rightarrow 1 - \frac{4 \cdot
+        \overline{A}}{S} = \langle AO\rangle
+        \]
+        where \(\langle AO\rangle\) is the area-weighted mean cosine-weighted ambient occlusion and
+        \(C_M := 1-\langle AO\rangle\) is the Moeini Convexity Measure.
+      </p>
+    </div>
+
+    <h2 id="definitions">Definitions and Notations</h2>
+    <p>
+      We group notation by whether it is global (shape-level), local (point-wise), or directional vector.
+    </p>
+
+    <h3>Global (shape-level)</h3>
+    <ul>
+      <li>\(K \subset \mathbb{R}^3\): the body (shape).</li>
+      <li>\(\partial K\): the boundary surface of \(K\).</li>
+      <li>\(S\): total surface area of \(\partial K\).</li>
+      <li>\(\overline{A}\): average projected area (average shadow area) over all directions.</li>
+      <li>\(\langle AO\rangle\): area-weighted mean cosine-weighted ambient occlusion over \(\partial K\).</li>
+    </ul>
+
+    <h3>Local surface fields (depend on \(\mathbf{x}\in\partial K\))</h3>
+    <ul>
+      <li>\(\mathbf{x}\in\partial K\): a surface point.</li>
+      <li>\(dA(\mathbf{x})\): surface area element at \(\mathbf{x}\).</li>
+      <li>\(\mathbf{n}(\mathbf{x})\): outward unit normal at \(\mathbf{x}\).</li>
+      <li>\(AO(\mathbf{x})\): cosine-weighted ambient occlusion at \(\mathbf{x}\).</li>
+    </ul>
+
+    <h3>Directional quantities</h3>
+    <ul>
+      <li>\(S^2\): the unit sphere of directions.</li>
+      <li>\(\mathbf{u}\in S^2\): a viewing direction.</li>
+      <li>\(H(\mathbf{x}) := \{\omega \in S^2 : \mathbf{n}(\mathbf{x}) \cdot \omega \geq 0\}\): the outward hemisphere
+        at \(\mathbf{x}\).</li>
+      <li>\(A_{\mathrm{proj}}(\mathbf{u})\): orthographic projection area in direction \(\mathbf{u}\).</li>
+    </ul>
+
+    <h3>Visibility indicator (depend on both \(\mathbf{x}\) and \(\mathbf{u}\))</h3>
+    <ul>
+      <li>\(V(\mathbf{x},\mathbf{u})\in\{0,1\}\): visibility indicator of \(\mathbf{x}\) from direction \(\mathbf{u}\).
+      </li>
+    </ul>
+
+    <p>
+      More importantly how we formalize these definitions together allows us to derive the main result.
+    </p>
+
+    <h3>Definition 1 ( \(\mathbf{n}(\mathbf{x})\) and \(\omega\) vector) </h3>
+    <p>
+      For every unit normal vector \(\mathbf{n}(\mathbf{x})\) pointing outward from the surface at \(\mathbf{x}\)
+      it is accompanied by a set of hemisphere direction vectors \(\omega \in S^2\) such that
+      \(\mathbf{n}(\mathbf{x})\cdot \omega \geq 1\).
+    </p>
+    <section id="normal-omega-demo" class="widget" style="margin: 18px 0 10px;">
+      <div class="card">
+        <canvas id="normal-omega-canvas" class="canvas canvas--mid"></canvas>
+      </div>
+      <p class="caption">
+        Static torus with a chosen surface point \(x\) (red), its outward unit normal \(\mathbf{n}(x)\) (blue), and a
+        direction
+        vector \(\omega\) (green) moving over the outward hemisphere at the same point.
+      </p>
+    </section>
+
+    <h3>Definition 2 (Visibility indicator \(V(\mathbf{x},\mathbf{u})\)) </h3>
+    <p>
+      For a viewing direction \(\mathbf{u} \in S^2\) (the unit sphere), define the visibility function
+    </p>
+    <p>
+      \[
+      V(\mathbf{x}, \mathbf{u}) =
+      \begin{cases}
+      1 & \text{if } \mathbf{x} \text{ is visible from direction } \mathbf{u} \\
+      0 & \text{if } \mathbf{x} \text{ is occluded by other parts of } K
+      \end{cases}
+      \]
+    </p>
+    <p>
+      Precisely, \(V(\mathbf{x}, \mathbf{u}) = 1\) if and only if \(\mathbf{x}\) is the first surface point encountered
+      when tracing a ray from infinity in direction \(-\mathbf{u}\).
+    </p>
+
+    <section id="visibility-demo" class="widget" style="margin: 18px 0 10px;">
+      <div class="card">
+        <canvas id="visibility-canvas" class="canvas canvas--mid"></canvas>
+      </div>
+      <p class="caption">
+        We pick a fixed surface point \(x\) on the torus. A direction \(\mathbf{u}\) (cyan) moves on \(S^2\);
+        the orange ray comes from infinity in direction \(-\mathbf{u}\). The point turns green if \(V(x,\mathbf{u})=1\)
+        (first hit), otherwise red.
+      </p>
+    </section>
+    <h3>Definition 3 (Orthographic Projection Area)</h3>
+    <p>
+      For a given viewing direction \(\mathbf{u} \in S^2\), the orthographic shadow area is
+    </p>
+    <p>
+      \[
+      A_{\mathrm{proj}}(\mathbf{u}) = \int_{\partial K}(\mathbf{n}(\mathbf{x}) \cdot \mathbf{u})_+\;V(\mathbf{x},
+      \mathbf{u})\, dA(\mathbf{x}),
+      \]
+      where \((a)_+ := \max(a, 0)\) ensures only forward-facing surfaces contribute. This integral should be viewed as a
+      sum of three factors were \((\mathbf{n}(\mathbf{x}) \cdot \mathbf{u})_+\) is the cosine factor, \(dA(\mathbf{x})\)
+      is the surface area element, and \(V(\mathbf{x}, \mathbf{u})\) is the visibility indicator.
+      When the angle of the normal vector and the direction vector is less than 90 degrees, the cosine factor is
+      positive and the surface area element is added to the projection area.
+    </p>
+
+    <section id="projection-demo" class="widget" style="margin: 18px 0 10px;">
+      <div class="card">
+        <canvas id="projection-canvas" class="canvas canvas--mid"></canvas>
+      </div>
+      <p class="caption">
+        Projection integrand intuition: a small patch at a point \(x\) with normal \(\mathbf{n}(x)\) (blue) and a
+        direction \(\mathbf{u}\) (cyan).
+        The patch brightness follows \((\mathbf{n}(x)\cdot\mathbf{u})_+\): it brightens when front-facing and dims when
+        back-facing.
+      </p>
+    </section>
+
+    <p>
+      \(A_{\mathrm{proj}}(\mathbf{u})\) is particularly useful when we want to compute the average projected area of a
+      non-convex surface. As it's a global measure however its depends on \(\mathbf{u} \in S^2\) and thus we need to
+      average over all directions.
+      It is essential to use \(\mathbf{u}\) as its the same cordinate system as local quantities which allows us to
+      build global and local quantities together.
+    </p>
+    <h3>Definition 4 (Average Shadow Area)</h3>
+    <p>
+      The average shadow area over all possible orientations is obtained by integrating over the unit sphere \(S^2\)
+      with the uniform measure:
+    </p>
+    <p>
+      \[
+      \overline{A} := \frac{1}{4\pi} \int_{S^2} A_{\text{proj}}(\mathbf{u}) \, d\sigma(\mathbf{u}),
+      \]
+      where \(d\sigma\) is the standard surface measure on \(S^2\).
+    </p>
+
+
+
+    <div class="widget-grid" style="margin: 18px 0 10px;">
+      <section id="average-demo" class="widget">
+        <div class="card">
+          <canvas id="average-canvas" class="canvas canvas--mid"></canvas>
+        </div>
+        <p class="caption">
+          Monte Carlo average over directions: we sample directions \(\mathbf{u}\in S^2\), compute
+          \(A_{\mathrm{proj}}(\mathbf{u})\) for a unit cube,
+          and show the running estimate converging to \(S/4\) (for a unit cube, \(S=6\Rightarrow S/4=1.5\)).
+        </p>
+      </section>
+
+      <section id="average-plane-demo" class="widget">
+        <div class="card">
+          <canvas id="average-plane-canvas" class="canvas canvas--mid"></canvas>
+        </div>
+        <p class="caption">
+          Same experiment with a different frame: the cube stays fixed while the ground plane and light source rotate
+          with the sampled direction \(\mathbf{u}\).
+          This shows how the local and global measures can use the same coordinate system to compute the average
+          projected area.
+        </p>
+      </section>
+    </div>
+
+    <h3>Definition 5 (Cosine-Weighted Ambient Occlusion)</h3>
+    <p>
+      At each point \(\mathbf{x} \in \partial K\), define the ambient occlusion factor as
+    </p>
+    <p>
+      \[
+      AO(\mathbf{x}) := \frac{1}{\pi} \int_{H(\mathbf{x})} [1 - V(\mathbf{x}, \omega)] \cdot (\mathbf{n}(\mathbf{x})
+      \cdot \omega) \, d\sigma(\omega)
+      \]
+    </p>
+    <p>
+      where the first factor \([1 - V(\mathbf{x}, \omega)]\) is the <em>occlusion indicator</em> and the second factor
+      \((\mathbf{n}(\mathbf{x}) \cdot \omega)\) is the <em>cosine weight</em>.
+      This measures the fraction of the outward hemisphere that is occluded by the shape itself, weighted by the cosine
+      of the angle from the normal.
+    </p>
+
+    <section id="occlusion-2d-demo" class="widget" style="margin: 18px 0 10px;">
+      <div class="card">
+        <canvas id="occlusion-2d-canvas" class="canvas canvas--mid"></canvas>
+      </div>
+      <p class="caption">
+        A ray \(\omega\) sweeps across the hemisphere \(H(\mathbf{x})\). When it hits an occluder, \(V(\mathbf{x},
+        \omega) = 0\)
+        and the direction contributes to the occlusion integral. When clear, \(V = 1\) and the cosine-weighted
+        contribution
+        \((\mathbf{n} \cdot \omega)\) is shown.
+      </p>
+    </section>
+
+    <h2 id="derivation">The Derivation</h2>
+
+    <p>
+      This derivation can be split into four steps, each with its own insight. Most importantly, it recovers Cauchy's
+      projection formula as a special case, without any proir assumptions.
+
+    </p>
+
+    <h3>Step 1: Interchanging Integration Order</h3>
+
+    <p>
+      Recalling definition 3, 4:
+    </p>
+
+    <p>
+      \[
+      \overline{A} := \frac{1}{4\pi} \int_{S^2} A_{\text{proj}}(\mathbf{u}) \, d\sigma(\mathbf{u}), \quad
+      A_{\mathrm{proj}}(\mathbf{u}) = \int_{\partial K}(\mathbf{n}(\mathbf{x}) \cdot \mathbf{u})_+\;V(\mathbf{x},
+      \mathbf{u})\, dA(\mathbf{x})
+      \]
+    </p>
+
+    <p>
+      By substituting the definition of \(A_{\mathrm{proj}}(\mathbf{u})\) into \(\overline{A}\) we get a double integral
+      over the surface and the unit sphere.
+    </p>
+    <p>
+      \[
+      \overline{A}
+      = \frac{1}{4\pi} \int_{S^2} \left[\int_{\partial K} (\mathbf{n}(\mathbf{x}) \cdot \mathbf{u})_+ V(\mathbf{x},
+      \mathbf{u}) \, dA(\mathbf{x})\right] d\sigma(\mathbf{u})
+      \]
+    </p>
+    <p>
+      We now apply <strong>Fubini's theorem</strong> to interchange the order of integration. This is valid since the
+      integrand is non-negative and the domain is bounded:
+    </p>
+    <p>
+      \[
+      \overline{A} = \int_{\partial K} \left[\frac{1}{4\pi} \int_{S^2} (\mathbf{n}(\mathbf{x}) \cdot \mathbf{u})_+
+      V(\mathbf{x}, \mathbf{u}) \, d\sigma(\mathbf{u})\right] dA(\mathbf{x})
+      \]
+    </p>
+    <p>
+      The two expressions are equal, but they suggest two different viewpoints.
+    </p>
+    <ul>
+      <li>Fix \(\mathbf{u}\): integrate over \(\partial K\) to compute the projection area
+        \(A_{\mathrm{proj}}(\mathbf{u})\).</li>
+      <li>Fix \(\mathbf{x}\): average over \(\mathbf{u}\in S^2\) to see how that surface point contributes on average
+        across directions.</li>
+    </ul>
+
+    <p>
+      This already foreshadows the visibility–occlusion relationship: after swapping the integrals, the inner average is
+      a function of the surface point \(\mathbf{x}\) (a local surface field).
+      In the next step we will restrict the integration to the outward hemisphere to simplify the inner integral.
+    </p>
+
+
+
+
+
+    <h3>Step 2: Restricting to the Hemisphere</h3>
+    <p>
+      The motivation for this step is simple: for a fixed surface point \(\mathbf{x}\), a direction \(\mathbf{u}\)
+      contributes to the projection integral only if the surface patch is <em>front-facing</em> from that direction.
+      This is exactly what \((\mathbf{n}(\mathbf{x})\cdot \mathbf{u})_+ = \max(\mathbf{n}(\mathbf{x})\cdot
+      \mathbf{u},0)\) enforces: whenever \(\mathbf{n}(\mathbf{x})\cdot \mathbf{u} < 0\), the patch is back-facing and
+        contributes \(0\). </p>
+        <p>
+          Therefore, in the inner average over the sphere, we can restrict attention to the outward hemisphere of
+          directions at \(\mathbf{x}\) (and it is convenient to rename the direction variable \(\mathbf{u}\) to
+          \(\omega\)):
+        </p>
+        <p>
+          \[
+          H(\mathbf{x}) := \{\omega \in S^2 : \mathbf{n}(\mathbf{x}) \cdot \omega \geq 0\}
+          \]
+        </p>
+        <p>
+          With this restriction, the integrand no longer needs the “\(+\)” operator since \(\mathbf{n}(\mathbf{x})\cdot
+          \omega \ge 0\) on \(H(\mathbf{x})\). So the inner integral becomes:
+        </p>
+        <p>
+          \[
+          \frac{1}{4\pi} \int_{S^2} (\mathbf{n} \cdot \mathbf{u})_+ V(\mathbf{x}, \mathbf{u}) \, d\sigma(\mathbf{u})
+          = \frac{1}{4\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega) V(\mathbf{x}, \omega) \, d\sigma(\omega)
+          \]
+        </p>
+        <p>
+          Finally, we rewrite the normalization to match the standard cosine-weighted hemisphere average:
+          \(\frac{1}{4\pi} = \frac{1}{4}\cdot\frac{1}{\pi}\). This gives
+        </p>
+        <p>
+          \[
+          = \frac{1}{4} \cdot \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega) V(\mathbf{x}, \omega) \,
+          d\sigma(\omega)
+          \]
+        </p>
+
+        <h3>Step 3: Introducing Ambient Occlusion</h3>
+
+        <p>
+          The key idea is to separate the cosine-weighted hemisphere into the directions that are visible and the
+          directions that are occluded.
+          We encode the occluded part by defining \(AO(\mathbf{x})\) (Definition&nbsp;5):
+        </p>
+        <p>
+          \[
+          \begin{aligned}
+          AO(\mathbf{x}) &:= \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\,(1 - V(\mathbf{x}, \omega))
+          \, d\sigma(\omega) \\
+          &= \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\ - (\mathbf{n} \cdot \omega)V(\mathbf{x},
+          \omega) \, d\sigma(\omega) \\
+          &= \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\, d\sigma(\omega)\;-\;\frac{1}{\pi}
+          \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\,V(\mathbf{x}, \omega) \, d\sigma(\omega)
+          \end{aligned}
+          \]
+        </p>
+        <p>
+          By rearranging the terms we get, we can see that the first term is the same the inner integral we computed in
+          step 2.
+        </p>
+        <p>
+          \[
+          \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\,V(\mathbf{x}, \omega) \, d\sigma(\omega)
+          = \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\, d\sigma(\omega) - AO(\mathbf{x}),
+          \]
+          however, now we created a new integral that has no dependency on the surface point \(\mathbf{x}\), it is a
+          global quantity geometric constant.
+          We name it \(C\) and it is the normalization constant for the cosine-weighted hemisphere average.
+          \[
+          C := \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega)\, d\sigma(\omega).
+          \]
+        </p>
+        <p>
+          To evaluate \(C\), use spherical coordinates with \(\mathbf{n}\) as the polar axis
+          (so \(\mathbf{n}\cdot\omega = \cos\theta\) and \(d\sigma = \sin\theta\,d\theta\,d\phi\) on the unit sphere),
+          we compute
+        </p>
+        <p>
+          \[
+          \begin{aligned}
+          C
+          &= \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n}\cdot\omega)\, d\sigma(\omega) \\
+          &= \frac{1}{\pi} \int_{0}^{2\pi} \int_{0}^{\pi/2} \cos\theta \,\sin\theta \, d\theta \, d\phi \\
+          &= \frac{2\pi}{\pi} \int_{0}^{\pi/2} \cos\theta \,\sin\theta \, d\theta \\
+          &= 2 \cdot \frac{1}{2}\sin^2\theta \Big|_{0}^{\pi/2} \\
+          &= 1
+          \end{aligned}
+          \]
+        </p>
+
+        <p>
+          Thus we obtain a rigorous visibility–occlusion relationship. Essentially a conservation-of-energy (or
+          total-mass) statement.
+          If a surface point contributes to the projection integral for a given direction, it must be visible from that
+          direction; otherwise, it is occluded and contributes nothing.
+        </p>
+        <div class="theorem">
+          <div class="label">Visibility–Occlusion Relationship.</div>
+          <p>
+            \[
+            \frac{1}{\pi} \int_{H(\mathbf{x})} (\mathbf{n} \cdot \omega) V(\mathbf{x}, \omega) \, d\sigma(\omega)
+            = 1 - AO(\mathbf{x}).
+            \]
+          </p>
+        </div>
+
+        <h3>Step 4: Final Derivation</h3>
+
+        <p>
+          Now substitute the hemisphere-restricted form from Step&nbsp;2
+        </p>
+        <p>
+          \[
+          \overline{A} = \int_{\partial
+          K}\left[\frac{1}{4}\cdot\frac{1}{\pi}\int_{H(\mathbf{x})}(\mathbf{n}\cdot\omega)\,V(\mathbf{x},\omega)\,d\sigma(\omega)\right]
+          dA(\mathbf{x})
+          \]
+        </p>
+        <p>
+          Applying the visibility–occlusion relationship \(\frac{1}{\pi}\int_{H}(\mathbf{n}\cdot\omega)V\,d\sigma = 1 -
+          AO(\mathbf{x})\):
+        </p>
+        <p>
+          \[
+          = \int_{\partial K}\frac{1}{4}\bigl(1-AO(\mathbf{x})\bigr)\,dA(\mathbf{x})
+          \]
+        </p>
+        <p>
+          \[
+          = \frac{1}{4}\int_{\partial K}\bigl(1-AO(\mathbf{x})\bigr)\,dA(\mathbf{x})
+          \]
+        </p>
+        <p>
+          \[
+          = \frac{1}{4}\left[\int_{\partial K} dA(\mathbf{x}) - \int_{\partial K} AO(\mathbf{x})\,dA(\mathbf{x})\right]
+          \]
+        </p>
+        <p>
+          Recognizing that \(\int_{\partial K} dA = S\), we obtain a key insight: the average projected area equals
+          one-quarter of the surface area, minus a correction for occlusion.
+        </p>
+        <p>
+          \[
+          = \frac{1}{4}\left[S - \int_{\partial K} AO(\mathbf{x})\,dA(\mathbf{x})\right]
+          \]
+        </p>
+        <p>
+          We define the <strong>area-weighted mean ambient occlusion</strong> as, normalizing by the surface area is a
+          common way to average a local quantity over a surface and it helps factor out the \(S\) term.
+        </p>
+        <p>
+          \[
+          \langle AO \rangle := \frac{1}{S} \int_{\partial K} AO(\mathbf{x}) \, dA(\mathbf{x})
+          \]
+        </p>
+        <p>
+          Substituting this definition gives:
+        </p>
+        <p>
+          \[
+          \overline{A} = \frac{1}{4} [S - S \cdot \langle AO \rangle] = \frac{S}{4} [1 - \langle AO \rangle] = \frac{S
+          \cdot C_M}{4}
+          \]
+        </p>
+        <p>
+          where \(C_M := 1 - \langle AO \rangle\) is the <strong>Moeini Convexity Measure</strong>.
+        </p>
+        <p>
+          This completes the proof. ∎
+        </p>
+
+        <h2 id="special-cases">Special Cases and Applications</h2>
+
+        <h3>Convex Shapes (Cauchy's Formula)</h3>
+        <div class="theorem">
+          <div class="label">Theorem (Cauchy's Projection Formula).</div>
+          <p>
+            For any convex shape with surface area \(S\),
+          </p>
+          <p>
+            \[
+            \overline{A} = \frac{S}{4}
+            \]
+          </p>
+        </div>
+        <p><em>Proof.</em> For convex shapes, no point occludes any other, so \(V(\mathbf{x}, \omega) \equiv 1\) for all
+          \(\mathbf{x}\) and \(\omega\). Thus, from the definition of ambient occlusion, the integrand \([1 - V]\) is
+          always zero:</p>
+        <p>
+          \[
+          AO(\mathbf{x}) = 0 \quad \Rightarrow \quad \langle AO \rangle = 0 \quad \Rightarrow \quad C_M = 1
+          \]
+        </p>
+        <p>
+          Therefore, our main result becomes:
+        </p>
+        <p>
+          \[
+          \overline{A} = \frac{S \cdot C_M}{4} = \frac{S}{4} \quad \square
+          \]
+        </p>
+
+        <h3>Physical Interpretation: Radiative Heat Transfer</h3>
+        <p>
+          There is a natural physical interpretation for this result. In diffuse radiative exchange, the fraction of the
+          hemisphere
+          at each surface point that "sees" the external environment, rather than other parts of the surface, governs
+          the net heat transfer.
+          This is precisely what \(1 - AO(\mathbf{x})\) measures.
+        </p>
+        <p>
+          Intuitively, points deep in cavities have \(AO(\mathbf{x}) \to 1\), seeing mostly nearby surfaces at similar
+          temperature,
+          and thus contribute little to net radiation exchange. As \(\langle AO \rangle \to 1\), we would expect the
+          effective radiating area
+          \(S_{\mathrm{eff}} = S \cdot C_M \to 0\): highly self-occluded surfaces should not efficiently exchange
+          thermal radiation with the external environment.
+          A rigorous derivation of this connection is left for future work.
+        </p>
+
+        <h3>Algorithmic Implications</h3>
+        <p>
+          Computing \(\langle AO \rangle\) directly requires a four-dimensional integral (two dimensions over the
+          surface, two over each hemisphere),
+          with each sample requiring a visibility query (ray tracing). For complex shapes, this is computationally
+          expensive.
+        </p>
+        <p>
+          \[
+          \langle AO \rangle = \frac{1}{S \cdot \pi} \int_{\partial K} \int_{H(\mathbf{x})} [1 - V(\mathbf{x}, \omega)]
+          \cdot (\mathbf{n}(\mathbf{x}) \cdot \omega) \, d\sigma(\omega) \, dA(\mathbf{x})
+          \]
+        </p>
+        <p>
+          However, our main result provides an alternative. Rearranging the theorem gives:
+        </p>
+        <p>
+          \[
+          \langle AO \rangle = 1 - \frac{4 \cdot \overline{A}}{S}
+          \]
+        </p>
+        <p>
+          This means we can compute \(\langle AO \rangle\) by first estimating \(\overline{A}\), which
+          is far simpler and computationally cheaper as it requires only rasterization, not ray tracing.
+        </p>
+        <p>
+          <strong>Practical algorithm for \(\overline{A}\):</strong>
+        </p>
+        <ol>
+          <li>Sample \(N\) uniformly random directions \(\mathbf{u}_1, \ldots, \mathbf{u}_N\) on the sphere.</li>
+          <li>For each direction \(\mathbf{u}_i\), set up an orthographic camera looking along \(\mathbf{u}_i\).</li>
+          <li>Rasterize the mesh into a binary buffer (1 = occupied, 0 = empty).</li>
+          <li>Count occupied pixels and multiply by the physical area per pixel to get
+            \(A_{\mathrm{proj}}(\mathbf{u}_i)\).</li>
+          <li>Average: \(\overline{A} \approx \frac{1}{N}\sum_{i=1}^{N} A_{\mathrm{proj}}(\mathbf{u}_i)\).</li>
+        </ol>
+        <p>
+          This Monte Carlo approach converges quickly and leverages GPU rasterization, making it orders of magnitude
+          faster
+          than direct ambient-occlusion integration for many applications.
+        </p>
+
+
+        <h2 id="conclusion">Conclusion</h2>
+        <p>
+          For any closed, piecewise-smooth surface with area \(S\), the average orthographic shadow area is
+        </p>
+        <p>
+          \[
+          \overline{A} = \frac{S}{4}(1 - \langle AO \rangle) = \frac{S \cdot C_M}{4}
+          \]
+        </p>
+        <p>
+          This single formula generalizes Cauchy's classical result to non-convex shapes, with the correction factor
+          \(C_M = 1 - \langle AO \rangle\) capturing precisely how much self-occlusion reduces the effective shadow.
+          The derivation requires only that the surface be piecewise-smooth and the visibility function
+          measurable—conditions
+          satisfied by virtually all shapes of practical interest, including polyhedra.
+        </p>
+
+        <hr />
+        <p style="color: var(--muted); font-size: 13px;">
+          This blog post was made possible with three.js and KaTeX.
+        </p>
+  </main>
+
+  <script defer src="./assets/katex_render.js"></script>
+  <script src="./assets/theme.js"></script>
+
+  <!-- Three.js (vendored locally; classic script so it works on file://). -->
+  <script defer src="./three.min.js"></script>
+  <!-- Cache-bust widget scripts (some browsers cache aggressively even on localhost). -->
+  <script defer src="./widgets/mc_sampler.js?v=2"></script>
+  <script defer src="./widgets/shadow_scene.js?v=2"></script>
+  <script defer src="./widgets/torus_scene.js?v=2"></script>
+  <script defer src="./widgets/normal_omega_scene.js?v=2"></script>
+  <script defer src="./widgets/visibility_scene.js?v=2"></script>
+  <script defer src="./widgets/projection_scene.js?v=2"></script>
+  <script defer src="./widgets/average_scene.js?v=2"></script>
+  <script defer src="./widgets/average_plane_scene.js?v=2"></script>
+  <script defer src="./widgets/occlusion_2d_scene.js?v=2"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!window.KatexStaticWidgets || !window.KatexStaticWidgets.initShadowScene) return;
+      window.KatexStaticWidgets.initShadowScene({ mountId: "three-demo", canvasId: "three-canvas" });
+      if (!window.KatexStaticWidgets.initTorusScene) return;
+      window.KatexStaticWidgets.initTorusScene({
+        mountId: "torus-demo",
+        canvasId: "torus-canvas"
+      });
+      if (!window.KatexStaticWidgets.initNormalOmegaScene) return;
+      window.KatexStaticWidgets.initNormalOmegaScene({
+        mountId: "normal-omega-demo",
+        canvasId: "normal-omega-canvas"
+      });
+      if (!window.KatexStaticWidgets.initVisibilityScene) return;
+      window.KatexStaticWidgets.initVisibilityScene({
+        mountId: "visibility-demo",
+        canvasId: "visibility-canvas"
+      });
+      if (!window.KatexStaticWidgets.initProjectionScene) return;
+      window.KatexStaticWidgets.initProjectionScene({
+        mountId: "projection-demo",
+        canvasId: "projection-canvas"
+      });
+      if (!window.KatexStaticWidgets.initAverageScene) return;
+      window.KatexStaticWidgets.initAverageScene({
+        mountId: "average-demo",
+        canvasId: "average-canvas"
+      });
+      if (!window.KatexStaticWidgets.initAveragePlaneScene) return;
+      window.KatexStaticWidgets.initAveragePlaneScene({
+        mountId: "average-plane-demo",
+        canvasId: "average-plane-canvas"
+      });
+      if (window.KatexStaticWidgets.initOcclusion2DScene) {
+        window.KatexStaticWidgets.initOcclusion2DScene({
+          mountId: "occlusion-2d-demo",
+          canvasId: "occlusion-2d-canvas"
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

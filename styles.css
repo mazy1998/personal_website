@@ -25,7 +25,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 15px 20px; /* Standard padding */
+  padding: 15px 20px;
+  /* Standard padding */
   background-color: rgba(249, 249, 249, 0.95);
   z-index: 100;
   display: flex;
@@ -71,11 +72,14 @@ body {
 
 /* --- Dropdown Menu (Original Positioning - Top Middle) --- */
 .dropdown {
-  position: fixed; /* Back to fixed */
-  top: 80px; /* Position below navbar */
+  position: fixed;
+  /* Back to fixed */
+  top: 80px;
+  /* Position below navbar */
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10; /* Above main content, below navbar if needed */
+  z-index: 10;
+  /* Above main content, below navbar if needed */
   text-align: center;
   width: auto;
 }
@@ -87,15 +91,18 @@ body {
   transition: color 0.3s ease;
   line-height: 1;
   padding: 5px;
-  margin-bottom: 10px; /* Space between arrow and menu */
+  margin-bottom: 10px;
+  /* Space between arrow and menu */
 }
- .dropdown:hover .dropdown-trigger {
-     color: #222;
- }
+
+.dropdown:hover .dropdown-trigger {
+  color: #222;
+}
 
 .dropdown-menu {
   display: none;
-  position: absolute; /* Position relative to .dropdown */
+  position: absolute;
+  /* Position relative to .dropdown */
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -116,25 +123,27 @@ body {
   padding: 8px 15px;
   text-decoration: none;
   color: #222;
-  transition: color 0.3s ease; /* Removed background transition */
+  transition: color 0.3s ease;
+  /* Removed background transition */
   position: relative;
   text-align: center;
 }
- .dropdown-menu a:hover {
-     color: #C1432E;
-     /* Removed background-color hover */
- }
+
+.dropdown-menu a:hover {
+  color: #C1432E;
+  /* Removed background-color hover */
+}
 
 
 /* Numerical markers styling - Dropdown */
 .dropdown-menu .section-number {
-   font-size: 35px;
-   display: inline-block;
-   position: relative;
-   padding-bottom: 5px;
-   margin-bottom: 0;
-   font-weight: 400;
-   line-height: 1.1;
+  font-size: 35px;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 5px;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.1;
 }
 
 /* Underline effect for dropdown numbers */
@@ -160,33 +169,37 @@ body {
 .active-section {
   color: #C1432E;
 }
+
 .active-section::after {
-     transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 /* Style for numbers WITHIN main section content */
 main section .section-number {
-   color: #C1432E;
-   font-size: 24px;
-   display: inline-block;
-   position: relative;
-   padding-bottom: 3px;
-   margin-bottom: 0;
-   font-weight: 400;
+  color: #C1432E;
+  font-size: 24px;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 3px;
+  margin-bottom: 0;
+  font-weight: 400;
 }
+
 main section .section-number::after {
-    display: none;
+  display: none;
 }
 
 
 /* --- Main Content & Sections --- */
 main {
-  padding-top: 80px; /* Adjust based on navbar height + desired space */
+  padding-top: 80px;
+  /* Adjust based on navbar height + desired space */
   transition: filter 0.3s ease;
 }
+
 /* Blur effect triggered by original dropdown hover */
-.dropdown:hover ~ main {
-    filter: blur(3px);
+.dropdown:hover~main {
+  filter: blur(3px);
 }
 
 
@@ -203,16 +216,16 @@ section {
 
 /* Section Separator Line */
 section:not(:first-child)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    max-width: 1400px;
-    height: 2px;
-    background-color: #C1432E;
-    border-radius: 1px;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1400px;
+  height: 2px;
+  background-color: #C1432E;
+  border-radius: 1px;
 }
 
 
@@ -263,85 +276,88 @@ p {
 }
 
 .image-placeholder img {
-     max-width: 100%;
-     max-height: 100%;
-     width: auto;
-     height: auto;
-     object-fit: contain;
-     display: block;
-     border-radius: 20px;
-     transition: transform 0.3s ease;
-     transform-origin: center;
-     position: relative;
-     will-change: transform;
-     -webkit-transform: translateZ(0);
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  position: relative;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
 }
 
 .image-placeholder img:hover {
-     transform: scale(1.003) translateY(-3px);
-     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  transform: scale(1.003) translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Contact Links Styling */
 .contact-links {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 }
 
 .contact-links a {
-    text-decoration: none;
-    color: #555;
-    margin-right: 20px;
-    font-size: 14px;
-    transition: color 0.3s ease;
-    display: inline-block;
-    padding-bottom: 3px;
-    position: relative;
+  text-decoration: none;
+  color: #555;
+  margin-right: 20px;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  display: inline-block;
+  padding-bottom: 3px;
+  position: relative;
 }
 
 .contact-links a:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .contact-links a:hover {
-    color: #C1432E;
+  color: #C1432E;
 }
+
 /* Underline effect for contact links */
 .contact-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #C1432E;
-    border-radius: 0.5px;
-    transform: scaleX(0);
-    transform-origin: center center;
-    transition: transform 0.3s ease-out;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #C1432E;
+  border-radius: 0.5px;
+  transform: scaleX(0);
+  transform-origin: center center;
+  transition: transform 0.3s ease-out;
 }
+
 .contact-links a:hover::after {
-    transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 
 /* Section Name Display at Bottom */
 #section-name-display {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5; /* Below dropdown */
-    font-size: 27px;
-    font-weight: 500;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 5px 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  /* Below dropdown */
+  font-size: 27px;
+  font-weight: 500;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 /* Footer */
@@ -359,78 +375,128 @@ footer {
 /* Media Queries */
 @media (max-width: 768px) {
   .nav-bar {
-      padding: 10px 15px;
-      min-height: 50px;
+    padding: 10px 15px;
+    min-height: 50px;
   }
+
   main {
-      padding-top: 70px; /* Adjust for mobile navbar */
+    padding-top: 70px;
+    /* Adjust for mobile navbar */
   }
-   .site-title {
-       font-size: 16px;
-   }
-   .coordinates {
-       font-size: 16px;
-       min-width: auto;
-       color: #333;
-   }
-   .coordinates:hover {
-       color: #333; /* Remove hover effect on mobile */
-   }
-   .dropdown {
-       top: 65px; /* Adjust dropdown position relative to mobile navbar */
-   }
+
+  .site-title {
+    font-size: 16px;
+  }
+
+  .coordinates {
+    font-size: 16px;
+    min-width: auto;
+    color: #333;
+  }
+
+  .coordinates:hover {
+    color: #333;
+    /* Remove hover effect on mobile */
+  }
+
+  .dropdown {
+    top: 65px;
+    /* Adjust dropdown position relative to mobile navbar */
+  }
+
   .content-container {
     grid-template-columns: 1fr;
   }
-   .image-placeholder {
-       height: auto;
-       max-height: 80vh; /* Limit to 80% of viewport height */
-       width: 100%;
-       padding: 10px;
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       overflow: visible;
-   }
-   .image-placeholder img {
-       max-width: 90%;
-       max-height: 70vh; /* Limit height to ensure it's visible */
-       width: auto;
-       height: auto;
-       object-fit: contain;
-       border-radius: 20px;
-       display: block;
-   }
-   section {
-       padding: 60px 15px 40px;
-   }
-   section:not(:first-child)::before {
-       width: 90%;
-   }
-   #section-name-display {
-       font-size: 16px;
-       bottom: 15px;
-   }
-   .contact-links {
-       text-align: center;
-   }
-   .contact-links a {
-       margin: 0 10px 10px;
-       font-size: 13px;
-   }
+
+  .image-placeholder {
+    height: auto;
+    max-height: 80vh;
+    /* Limit to 80% of viewport height */
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .image-placeholder img {
+    max-width: 90%;
+    max-height: 70vh;
+    /* Limit height to ensure it's visible */
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 20px;
+    display: block;
+  }
+
+  section {
+    padding: 60px 15px 40px;
+  }
+
+  section:not(:first-child)::before {
+    width: 90%;
+  }
+
+  #section-name-display {
+    font-size: 16px;
+    bottom: 15px;
+  }
+
+  .contact-links {
+    text-align: center;
+  }
+
+  .contact-links a {
+    margin: 0 10px 10px;
+    font-size: 13px;
+  }
 }
 
- /* Preference for reduced motion */
+/* Preference for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+
   .dropdown-menu .section-number::after,
   #section-name-display,
   .dropdown-trigger,
   main,
   .contact-links a::after,
   .coordinates {
-      transition: none;
+    transition: none;
   }
-} 
+}
+
+/* --- Widget Styles (Ported) --- */
+.widget {
+  width: 100%;
+}
+
+.widget .card {
+  border: 1px solid #eee;
+  border-radius: 20px;
+  /* Match site rounded corners */
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* Subtle shadow */
+}
+
+.widget .canvas {
+  display: block;
+  width: 100%;
+}
+
+.widget .canvas--mid {
+  height: 400px;
+  /* Adjusted height */
+}
+
+@media (max-width: 768px) {
+  .widget .canvas--mid {
+    height: 300px;
+  }
+}
